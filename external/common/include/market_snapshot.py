@@ -93,7 +93,7 @@ class MarketSnapshot:
     asks = float(asks)
     volume = float(volume)
 
-    self.time_str = time1+"@"+time2
+    self.time_str = f"{time1}@{time2}"
     self.ticker = ticker
     self.bids[0] = bids
     self.asks[0] = asks
@@ -110,20 +110,18 @@ class MarketSnapshot:
       return False
     if self.ticker == 'CODE':
       return False
-    if self.time_check == True:
-      return self.CheckTime()
-    return True
+    return self.CheckTime() if self.time_check == True else True
 
   def CheckTime(self):
     valid_time = [(9*3600, 10*3600+15*60), (10.5*3600, 11.5*3600), (13.5*3600, 15*3600)]
     time_sec = -1
     if self.time == -1:
       time_s = self.time_str.split('@')[-1]
-      hour = int(time_s[0:2])
+      hour = int(time_s[:2])
       mit = int(time_s[3:5])
       sec = int(time_s[6:8])
       time_sec = hour*3600+mit*60+sec
-      #print time_s + '->' + str(time_sec)
+        #print time_s + '->' + str(time_sec)
     else:
       time_sec = (self.time+8*3600)%(24*2600)
     for pair in valid_time:
